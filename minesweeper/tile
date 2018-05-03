@@ -1,4 +1,6 @@
 # tile.py
+from graphics import *
+
 
 class Tile:
     def __init__(self):
@@ -51,39 +53,39 @@ class Tile:
     def getSurrounding(self):
         return self.surrounding
 
+
 class TileVisual(Tile):
-    def __init__(self, x, y, win):
-        self.x = x; self.y = y
-        self.xmin = x - .5; self.ymin = y - .5
-        self.xmax = x + .5; self.ymax = y + .5
-        self.win = win
-        self.label = Text(Point(self.x, self.y), "")
+    def __init__(self):
+        self.rect = None
+        self.label = None
         self.fill = None
+        Tile.__init__(self)
 
     def makeLabel(self):
         if self.activated and self.mine:
-            self.label = Text(Point(self.x, self.y), "Mine")
+            self.label = "Mine"
         elif self.activated:
-            self.label = Text(Point(self.x, self.y), str(self.surrounding))
+            self.label = str(self.surrounding())
         elif self.flagged:
-            self.label = Text(Point(self.x, self.y), "Flag")
+            self.label = "Flag"
         else:
-            self.label = Text(Point(self.x, self.y), "")
+            self.label = ""
 
     def fillColor(self):
         if self.activated and self.mine:
-            self.fill = self.rect.setFill("red1")
+            self.fill = "red1"
         elif self.activated:
-            self.fill = self.rect.setFill("grey2")
+            self.fill = "grey2"
         elif self.flagged:
-            self.fill = self.rect.setFill("grey1")
+            self.fill = "grey1"
         else:
-            self.fill = self.rect.setFill("grey1")
+            self.fill = "grey1"
 
-    def draw(self):
-        self.rect = Rectangle(Point(self.xmin, self.ymin), Point(self.xmax, self.ymax))
-        self.update()
-        self.rect.draw(self.win)
+    def draw(self, p, win):
+        self.__update()
+        self.rect = Rectangle(Point(p.getX() - 20, p.getY() - 20), Point(p.getX + 20, p.getY() + 20))
+        self.label = Text(p, self.label)
+        self.rect.draw(win); self.label.draw(win)
 
-    def update(self):
+    def __update(self):
         self.makeLabel(); self.fillColor()
