@@ -20,7 +20,7 @@ class GUI:
     def drawBoard(self):
         for y in self.list:
             for x in y:
-                self.list[y][x].draw(Point(y.index(x) + 1, self.list.index(y) + 1), self.win)
+                x.draw(y.index(x) + 1, self.list.index(y) + 1, self.win)
 
     def handleClicks(self):
         p = self.win.getMouse()
