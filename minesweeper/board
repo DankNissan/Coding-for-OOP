@@ -29,8 +29,10 @@ class Board:
                 tile = Tile()
                 rowList.append(tile)
             self.tileList.append(rowList)
+        # Calls the method createMines to add mines to the needed amount of tiles
+        self.__createMines(self.mines)
 
-    def createMines(self, m):
+    def __createMines(self, m):
         """
         Randomly places mines throughout the tiles
         :param m: int -> Amount of mines
