@@ -15,16 +15,16 @@ class GUI:
         self.board = Board(self.height, self.width, self.mines)
         self.list = self.board.getList()
         self.drawBoard()
-        self.win.getMouse()
+        while True:
+            self.handleClicks(self.win.getMouse())
 
     def drawBoard(self):
         for y in self.list:
             for x in y:
                 x.draw(y.index(x) + 1, self.list.index(y) + 1, self.win)
 
-    def handleClicks(self):
-        p = self.win.getMouse()
-        self.board.activate(floor(p.getX), floor(p.getY))
+    def handleClicks(self, p):
+        self.board.tileClicked(floor(p.getX), floor(p.getY))
 
 def main():
     game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
