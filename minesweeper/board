@@ -9,6 +9,7 @@ class Board:
         self.width = w
         self.mines = m
         self.tileList = []
+        self.__createTiles()
 
     def getTile(self, x, y):
         """
@@ -24,7 +25,7 @@ class Board:
         y = y - 1
         return self.tileList[y][x]
 
-    def createTiles(self):
+    def __createTiles(self):
         """
         Creates an array inside of an array that works like a coordinate plan when looking for the different tiles
 
@@ -82,3 +83,10 @@ class Board:
         centerInt = self.getInt(x, y)
         tile.setState(True)
         return centerInt
+
+
+def main():
+    board = Board(25, 25, 5)
+    board.createTiles()
+
+main()
