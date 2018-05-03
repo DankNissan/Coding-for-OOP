@@ -1,1 +1,84 @@
+# Group.py
+from Board import *
 
+
+class Group:
+    def __init__(self, board, x, y):
+        '''
+        Initiates an instance of the group class based on a given location in the board list
+        :param x: Int
+        :param y: Int
+        '''
+        self.xpos = x
+        self.ypos = y
+        self.centertile = board.getTile(x, y)
+        self.board = board
+        self.mines = None
+        self.surroundings = None
+
+    def setMines(self, x):
+        '''
+        Sets the number of surrounding mines to the given variable
+        :param x: INT
+        :return: None
+        '''
+        self.mines = x
+
+    def getMines(self):
+        '''
+        Accessor for the mine values
+        :return: Int
+        '''
+        return self.mines
+
+    def setSurroundings(self, x):
+        '''
+        Sets the surroundings dictionary
+        :param x: Dict
+        :return: None
+        '''
+        self.surroundings = x
+
+    def appendSurroundings(self, x):
+        '''
+        Adds a new dictionary value to the end of the surroundings dictionary
+        :param x: Dict
+        :return: None
+        '''
+        dict(self.surroundings.update(x))
+
+    def getSurroundings(self):
+        '''
+        Accessor for the surroundings dictionary
+        :return: Dict
+        '''
+        return self.surroundings
+
+    def findSurroundings(self):
+        '''
+        Determines a dictionary of surrounding mine boolean values
+        :return: Dict
+        '''
+
+        y = 3
+        while y > 0:
+            yRef = y + self.ypos
+            while yRef >= 0:
+                self.appendSurroundings({self.xpos+","+yRef: self.board.getTile(self.xpos, yRef).hasMine()})
+                y -= 1
+
+        x = 3
+        while x > 0:
+            xRef = x + self.xpos
+            while xRef >= 0:
+                self.appendSurroundings({xRef+","+self.ypos: self.board.getTile(xRef, self.ypos).hasMine()})
+
+        return self.surroundings
+
+    def findMines(self):
+        '''
+        Determines the number of mines around the chosen tile
+        :return: Int
+        '''
+
+        surroundings = self.findSurroundings()
