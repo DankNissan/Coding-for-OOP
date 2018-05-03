@@ -12,12 +12,12 @@ class Board:
 
     def getTile(self, x, y):
         """
-        Formatting Note: Formatting of the tiles is done so that the top left tile is (1, 1) and the tile directly adjacent to the
-        right is (2, 1). It using the same coordinates as a graphics window would.
-        
+        Formatting Note: Formatting of the tiles is done so that the top left tile is (1, 1) and the tile directly
+        adjacent to the right is (2, 1). It using the same coordinates as a graphics window would.
+
         :param x: int -> x-coordinate
         :param y: int -> y-coordinate
-        :return: Object -> Tile
+        :return: self.tileList: Object -> Tile
         """
         # The list starts at zero, so this makes sure that the correct tile is found
         x = x - 1
@@ -52,6 +52,21 @@ class Board:
             if not(randomTile.hasMine()):
                 randomTile.setMine(True)
                 counter += 1
+
+    def getList(self):
+        """
+        Returns the tile list
+        :return: self.tileList: List -> Contains all of the tile objects in a grid form
+        """
+        return self.tileList
+    
+    def setList(self, x):
+        """
+        Sets the tileList to a new modified list (x)
+        :param x: list -> New tile list
+        :return: None
+        """
+        self.tileList = x
 
 
 def main():
