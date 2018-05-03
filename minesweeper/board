@@ -1,5 +1,6 @@
 # Board.py
 from Tile import Tile
+from random import randrange
 
 
 class Board:
@@ -10,6 +11,9 @@ class Board:
         self.tileList = []
 
     def getTile(self, x, y):
+        # The list starts at zero, so this makes sure that the correct tile is found
+        x = x - 1
+        y = y - 1
         return self.tileList[y][x]
 
     def createTiles(self):
@@ -25,6 +29,19 @@ class Board:
                 tile = Tile()
                 rowList.append(tile)
             self.tileList.append(rowList)
+
+    def createMines(self, m):
+        """
+        Randomly places mines throughout the tiles
+        :param m: int -> Amount of mines
+        :return: None
+        """
+        counter = 0
+        while counter < m:
+            randomTile = self.tileList[randrange(0, m)][randrange(0, m)]
+            if not(randomTile.hasMine()):
+                randomTile.setMine(True)
+                counter += 1
 
 
 def main():
