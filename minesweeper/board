@@ -82,10 +82,3 @@ class Board:
         centerInt = self.getInt(x, y)
         tile.setState(True)
         return centerInt
-
-
-def main():
-    board = Board(25, 25, 5)
-    board.createTiles()
-
-main()
