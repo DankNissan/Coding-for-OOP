@@ -11,6 +11,14 @@ class Board:
         self.tileList = []
 
     def getTile(self, x, y):
+        """
+        Formatting Note: Formatting of the tiles is done so that the top left tile is (1, 1) and the tile directly adjacent to the
+        right is (2, 1). It using the same coordinates as a graphics window would.
+        
+        :param x: int -> x-coordinate
+        :param y: int -> y-coordinate
+        :return: Object -> Tile
+        """
         # The list starts at zero, so this makes sure that the correct tile is found
         x = x - 1
         y = y - 1
