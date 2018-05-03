@@ -1,5 +1,5 @@
 # Board.py
-from Tile import Tile
+from Tile import *
 from random import randrange
 
 
@@ -67,6 +67,21 @@ class Board:
         :return: None
         """
         self.tileList = x
+
+    # TODO
+    def tileClicked(self, x, y):
+        """
+         Gets the coordinates of a clicked tile and then calls the group class to find out what the int inside should be
+        :param x: int -> Coordinate
+        :param y: int -> Coordinate
+        :return: centerInt: int -> Number that is shown to indicate the number of mines surrounding the tile
+        """
+        # This method assumes that the GUI class has already checked for a mine using hasMine()
+        tile = self.getTile(x, y)
+        # Get correct call name from group class when available
+        centerInt = self.getInt(x, y)
+        tile.setState(True)
+        return centerInt
 
 
 def main():
