@@ -34,7 +34,7 @@ class Board:
         for y in range(self.height):
             rowList = []
             for x in range(self.width):
-                tile = Tile()
+                tile = TileVisual()
                 rowList.append(tile)
             self.tileList.append(rowList)
         # Calls the method createMines to add mines to the needed amount of tiles
@@ -59,7 +59,7 @@ class Board:
         :return: self.tileList: List -> Contains all of the tile objects in a grid form
         """
         return self.tileList
-    
+
     def setList(self, x):
         """
         Sets the tileList to a new modified list (x)
