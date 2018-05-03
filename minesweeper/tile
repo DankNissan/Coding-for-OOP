@@ -51,3 +51,39 @@ class Tile:
     def getSurrounding(self):
         return self.surrounding
 
+class TileVisual(Tile):
+    def __init__(self, x, y, win):
+        self.x = x; self.y = y
+        self.xmin = x - .5; self.ymin = y - .5
+        self.xmax = x + .5; self.ymax = y + .5
+        self.win = win
+        self.label = Text(Point(self.x, self.y), "")
+        self.fill = None
+
+    def makeLabel(self):
+        if self.activated and self.mine:
+            self.label = Text(Point(self.x, self.y), "Mine")
+        elif self.activated:
+            self.label = Text(Point(self.x, self.y), str(self.surrounding))
+        elif self.flagged:
+            self.label = Text(Point(self.x, self.y), "Flag")
+        else:
+            self.label = Text(Point(self.x, self.y), "")
+
+    def fillColor(self):
+        if self.activated and self.mine:
+            self.fill = self.rect.setFill("red1")
+        elif self.activated:
+            self.fill = self.rect.setFill("grey2")
+        elif self.flagged:
+            self.fill = self.rect.setFill("grey1")
+        else:
+            self.fill = self.rect.setFill("grey1")
+
+    def draw(self):
+        self.rect = Rectangle(Point(self.xmin, self.ymin), Point(self.xmax, self.ymax))
+        self.update()
+        self.rect.draw(self.win)
+
+    def update(self):
+        self.makeLabel(); self.fillColor()
