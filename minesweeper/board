@@ -49,7 +49,7 @@ class Board:
         """
         counter = 0
         while counter < m:
-            randomTile = self.tileList[randrange(0, m)][randrange(0, m)]
+            randomTile = self.tileList[randrange(0, self.height)][randrange(0, self.height)]
             if not(randomTile.hasMine()):
                 randomTile.setMine(True)
                 counter += 1
@@ -83,10 +83,3 @@ class Board:
         centerInt = self.getInt(x, y)
         tile.setState(True)
         return centerInt
-
-
-def main():
-    board = Board(25, 25, 5)
-    board.createTiles()
-
-main()
