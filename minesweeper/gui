@@ -1,1 +1,32 @@
+# gui.py
 
+from graphics import *
+from tile import TileVisual
+from board import Board
+from math import floor
+
+
+class GUI:
+    def __init__(self, h, w, m):
+        self.height = h; self.width = w; self.mines = m
+        self.win = GraphWin("Minesweeper", self.width * 42, self.height * 42)
+        self.win.setCoords(.5, .5, self.width + .5, self.height + .5)
+
+        self.board = Board(self.height, self.width, self.mines)
+        self.list = self.board.getList()
+        self.drawBoard()
+        self.win.getMouse()
+
+    def drawBoard(self):
+        for y in self.list:
+            for x in y:
+                self.list[y][x].draw(Point(y.index(x) + 1, self.list.index(y) + 1), self.win)
+
+    def handleClicks(self):
+        p = self.win.getMouse()
+        self.board.activate(floor(p.getX), floor(p.getY))
+
+def main():
+    game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
+
+main()
