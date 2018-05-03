@@ -13,8 +13,9 @@ class Group:
         self.ypos = y
         self.centertile = board.getTile(x, y)
         self.board = board
-        self.mines = None
-        self.surroundings = None
+        
+        self.surroundings = self.findSurroundings()
+        self.mines = self.findMines()
 
     def setMines(self, x):
         '''
@@ -80,5 +81,7 @@ class Group:
         Determines the number of mines around the chosen tile
         :return: Int
         '''
-
-        surroundings = self.findSurroundings()
+        
+        for key in self.surroundings:
+            if self.surroundings[key] == True:
+                self.mines += 1
