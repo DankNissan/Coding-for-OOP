@@ -9,11 +9,14 @@ class Group:
         :param x: Int
         :param y: Int
         '''
-        self.xpos = x
-        self.ypos = y
-        self.centertile = board.getTile(x, y)
+        self.xposition = x
+        self.yposition = y
+        self.centerTile = board.getTile(x, y)
         self.board = board
-        
+
+        self.mines = 0
+        self.surroundings = {}
+
         self.surroundings = self.findSurroundings()
         self.mines = self.findMines()
 
@@ -46,7 +49,7 @@ class Group:
         :param x: Dict
         :return: None
         '''
-        dict(self.surroundings.update(x))
+        self.surroundings.update(x)
 
     def getSurroundings(self):
         '''
@@ -61,19 +64,19 @@ class Group:
         :return: Dict
         '''
 
-        y = 3
-        while y > 0:
-            yRef = y + self.ypos
-            while yRef >= 0:
-                self.appendSurroundings({self.xpos+","+yRef: self.board.getTile(self.xpos, yRef).hasMine()})
-                y -= 1
+        y = 1
+        while y >= -1:
+            print(y)
+            yRef = y + self.yposition
+            self.appendSurroundings({str(self.xposition)+","+str(yRef): self.board.getTile(self.xposition, yRef).hasMine()})
+            y -= 2
 
-        x = 3
-        while x > 0:
-            xRef = x + self.xpos
-            while xRef >= 0:
-                self.appendSurroundings({xRef+","+self.ypos: self.board.getTile(xRef, self.ypos).hasMine()})
-
+        x = 1
+        while x >= -1:
+            print(x)
+            xRef = x + self.xposition
+            self.appendSurroundings({str(xRef)+","+str(self.yposition): self.board.getTile(xRef, self.yposition).hasMine()})
+            x -= 2
         return self.surroundings
 
     def findMines(self):
@@ -81,7 +84,7 @@ class Group:
         Determines the number of mines around the chosen tile
         :return: Int
         '''
-        
+
         for key in self.surroundings:
             if self.surroundings[key] == True:
                 self.mines += 1
