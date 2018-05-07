@@ -1,94 +1,104 @@
-# Group.py
-from Board import *
+# Board.py
+from Tile import TileVisual
+from Group import Group
+from random import randrange
 
 
-class Group:
-    def __init__(self, board, x, y):
-        '''
-        Initiates an instance of the group class based on a given location in the board list
-        :param x: Int
-        :param y: Int
-        '''
-        self.xposition = x
-        self.yposition = y
-        self.centerTile = board.getTile(x, y)
-        self.board = board
+class Board:
+    def __init__(self, h, w, m):
+        self.height = h
+        self.width = w
+        self.mines = m
+        self.tileList = []
+        self.__createTiles()
 
-        self.mines = 0
-        self.surroundings = {}
+    def getHeight(self):
+        return self.height
+    
+    def getWidth(self):
+        return self.width
+    
+    def getTile(self, x, y):
+        """
+        Formatting Note: Formatting of the tiles is done so that the top left tile is (1, 1) and the tile directly
+        adjacent to the right is (2, 1). It using the same coordinates as a graphics window would.
 
-        self.surroundings = self.findSurroundings()
-        self.mines = self.findMines()
+        :param x: int -> x-coordinate
+        :param y: int -> y-coordinate
+        :return: self.tileList: Object -> Tile
+        """
+        # The list starts at zero, so this makes sure that the correct tile is found
+        x = x - 1
+        y = y - 1
+        return self.tileList[y][x]
 
-    def setMines(self, x):
-        '''
-        Sets the number of surrounding mines to the given variable
-        :param x: INT
+    def __createTiles(self):
+        """
+        Creates an array inside of an array that works like a coordinate plan when looking for the different tiles
+
+        Note: If you want to reference a tile in the coordinate plane it will be list[y][x]
         :return: None
-        '''
-        self.mines = x
+        """
+        for y in range(self.height):
+            rowList = []
+            for x in range(self.width):
+                tile = TileVisual()
+                rowList.append(tile)
+            self.tileList.append(rowList)
+        # Calls the method createMines to add mines to the needed amount of tiles
+        self.__createMines(self.mines)
 
-    def getMines(self):
-        '''
-        Accessor for the mine values
-        :return: Int
-        '''
-        return self.mines
-
-    def setSurroundings(self, x):
-        '''
-        Sets the surroundings dictionary
-        :param x: Dict
+    def __createMines(self, m):
+        """
+        Randomly places mines throughout the tiles
+        :param m: int -> Amount of mines
         :return: None
-        '''
-        self.surroundings = x
+        """
+        counter = 0
+        while counter < m:
+            randomTile = self.tileList[randrange(0, self.height)][randrange(0, self.height)]
+            if not(randomTile.hasMine()):
+                randomTile.setMine(True)
+                counter += 1
 
-    def appendSurroundings(self, x):
-        '''
-        Adds a new dictionary value to the end of the surroundings dictionary
-        :param x: Dict
+    def getList(self):
+        """
+        Returns the tile list
+        :return: self.tileList: List -> Contains all of the tile objects in a grid form
+        """
+        return self.tileList
+
+    def setList(self, x):
+        """
+        Sets the tileList to a new modified list (x)
+        :param x: list -> New tile list
         :return: None
-        '''
-        self.surroundings.update(x)
+        """
+        self.tileList = x
 
-    def getSurroundings(self):
-        '''
-        Accessor for the surroundings dictionary
-        :return: Dict
-        '''
-        return self.surroundings
+    def tileClicked(self, board, x, y):
+        """
+         Gets the coordinates of a clicked tile and then calls the group class to find out what the int inside should be
+        :param x: int -> Coordinate
+        :param y: int -> Coordinate
+        :param board: object -> Variable that board class is assigned to
+        :return: centerInt: int -> Number that is shown to indicate the number of mines surrounding the tile
+        """
+        # This method assumes that the GUI class has already checked for a mine using hasMine()
+        tile = self.getTile(x, y)
+        # Get correct call name from group class when available
+        centerInt = Group(board, x, y)
+        centerInt.getSurroundings()
+        tile.setState(True)
+        return centerInt
 
-    def findSurroundings(self):
-        '''
-        Determines a dictionary of surrounding mine boolean values
-        :return: Dict
-        '''
-
-        y = 1
-        while y >= -1:
-            print(y)
-            yRef = y + self.yposition
-            self.appendSurroundings({str(self.xposition)+","+str(yRef): self.board.getTile(self.xposition, yRef).hasMine()})
-            y -= 2
-
-        x = 1
-        while x >= -1:
-            print(x)
-            xRef = x + self.xposition
-            self.appendSurroundings({str(xRef)+","+str(self.yposition): self.board.getTile(xRef, self.yposition).hasMine()})
-            x -= 2
-            
-        return self.surroundings
-
-    def findMines(self):
-        '''
-        Determines the number of mines around the chosen tile
-        :return: Int
-        '''
-
-        for key in self.surroundings:
-            if self.surroundings[key] == True:
-                self.mines += 1
-
-    def getCoordSurroundings(self, x):
-        return self.surroundings.keys[x].split(',')
+    def tileFlagged(self, x, y):
+        """
+        Sets a tile to the flagged state
+        :param x: int -> Coordinate
+        :param y: int -> Coordinate
+        :return: None
+        """
+        tile = self.getTile(x, y)
+        tile.setFlag(True)
+        tile.__update()
