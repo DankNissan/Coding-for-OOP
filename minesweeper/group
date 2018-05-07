@@ -77,6 +77,7 @@ class Group:
             xRef = x + self.xposition
             self.appendSurroundings({str(xRef)+","+str(self.yposition): self.board.getTile(xRef, self.yposition).hasMine()})
             x -= 2
+            
         return self.surroundings
 
     def findMines(self):
@@ -88,3 +89,6 @@ class Group:
         for key in self.surroundings:
             if self.surroundings[key] == True:
                 self.mines += 1
+
+    def getCoordSurroundings(self, x):
+        return self.surroundings.keys[x].split(',')
