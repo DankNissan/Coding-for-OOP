@@ -70,12 +70,12 @@ class Board:
         """
         self.tileList = x
 
-    # TODO
     def tileClicked(self, board, x, y):
         """
          Gets the coordinates of a clicked tile and then calls the group class to find out what the int inside should be
         :param x: int -> Coordinate
         :param y: int -> Coordinate
+        :param board: object -> Variable that board class is assigned to
         :return: centerInt: int -> Number that is shown to indicate the number of mines surrounding the tile
         """
         # This method assumes that the GUI class has already checked for a mine using hasMine()
