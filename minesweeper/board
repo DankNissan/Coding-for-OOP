@@ -12,6 +12,12 @@ class Board:
         self.tileList = []
         self.__createTiles()
 
+    def getHeight(self):
+        return self.height
+
+    def getWidth(self):
+        return self.width
+
     def getTile(self, x, y):
         """
         Formatting Note: Formatting of the tiles is done so that the top left tile is (1, 1) and the tile directly
@@ -87,6 +93,12 @@ class Board:
         return centerInt
 
     def tileFlagged(self, x, y):
+        """
+        Sets a tile to the flagged state
+        :param x: int -> Coordinate
+        :param y: int -> Coordinate
+        :return: None
+        """
         tile = self.getTile(x, y)
         tile.setFlag(True)
         tile.__update()
