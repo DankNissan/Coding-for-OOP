@@ -84,14 +84,9 @@ class Board:
         centerInt = Group(board, x, y)
         centerInt.getSurroundings()
         tile.setState(True)
-        if centerInt == 0:
-            
         return centerInt
 
     def tileFlagged(self, x, y):
         tile = self.getTile(x, y)
         tile.setFlag(True)
         tile.__update()
-
-    def cascade(self, tile):
-
