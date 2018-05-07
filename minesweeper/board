@@ -28,8 +28,6 @@ class Board:
         :return: self.tileList: Object -> Tile
         """
         # The list starts at zero, so this makes sure that the correct tile is found
-        x = x - 1
-        y = y - 1
         return self.tileList[y][x]
 
     def __createTiles(self):
