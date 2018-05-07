@@ -56,36 +56,33 @@ class Tile:
 
 class TileVisual(Tile):
     def __init__(self):
-        self.rect = None
-        self.label = None
-        self.fill = None
         Tile.__init__(self)
 
     def makeLabel(self):
         if self.activated and self.mine:
-            self.label = "Mine"
+            self.label.setText("Mine")
         elif self.activated:
-            self.label = str(self.surrounding())
+            self.label.setText(self.surrounding)
         elif self.flagged:
-            self.label = "Flag"
+            self.label.setText("Flag")
         else:
-            self.label = ""
+            self.label.setText("")
 
     def fillColor(self):
         if self.activated and self.mine:
-            self.fill = "red1"
+            self.rect.setFill("#ff0000")
         elif self.activated:
-            self.fill = "grey2"
+            self.rect.setFill("#9b9b9b")
         elif self.flagged:
-            self.fill = "grey1"
+            self.rect.setFill("#ededed")
         else:
-            self.fill = "grey1"
+            self.rect.setFill("#ededed")
 
-    def draw(self, p, win):
-        self.__update()
-        self.rect = Rectangle(Point(p.getX() - 20, p.getY() - 20), Point(p.getX + 20, p.getY() + 20))
-        self.label = Text(p, self.label)
+    def draw(self, x, y, win):
+        self.rect = Rectangle(Point(x - .5, y - .5), Point(x + .5, y + .5))
+        self.label = Text(Point(x, y), "")
         self.rect.draw(win); self.label.draw(win)
+        self.update()
 
-    def __update(self):
+    def update(self):
         self.makeLabel(); self.fillColor()
