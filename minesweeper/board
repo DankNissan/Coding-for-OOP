@@ -102,4 +102,4 @@ class Board:
         """
         tile = self.getTile(x, y)
         tile.setFlag(True)
-        tile.__update()
+        tile.update()
