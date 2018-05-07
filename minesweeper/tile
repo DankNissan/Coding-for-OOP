@@ -79,8 +79,8 @@ class TileVisual(Tile):
             self.rect.setFill("#ededed")
 
     def draw(self, x, y, win):
-        self.rect = Rectangle(Point(x - .5, y - .5), Point(x + .5, y + .5))
-        self.label = Text(Point(x, y), "")
+        self.rect = Rectangle(Point(x, y), Point(x + 1, y + 1))
+        self.label = Text(Point(x + .5, y + .5), "")
         self.rect.draw(win); self.label.draw(win)
         self.update()
 
