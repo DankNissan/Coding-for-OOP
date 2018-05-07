@@ -3,28 +3,39 @@
 from graphics import *
 from tile import TileVisual
 from board import Board
-from math import floor
 
 
 class GUI:
     def __init__(self, h, w, m):
         self.height = h; self.width = w; self.mines = m
         self.win = GraphWin("Minesweeper", self.width * 42, self.height * 42)
-        self.win.setCoords(.5, .5, self.width + .5, self.height + .5)
+        self.win.setCoords(0, 0, self.width, self.height)
 
         self.board = Board(self.height, self.width, self.mines)
         self.list = self.board.getList()
         self.drawBoard()
+        self.flagging = False
         while True:
-            self.handleClicks(self.win.getMouse())
+            p = self.win.checkMouse()
+            if p and not self.flagging:
+                self.handleClicks(p)
+            elif p and self.flagging:
+                self.handleFlags(p)
+            elif self.win.checkKey().upper() == "F":
+                self.flagging = not self.flagging
+
 
     def drawBoard(self):
         for y in self.list:
             for x in y:
-                x.draw(y.index(x) + 1, self.list.index(y) + 1, self.win)
+                x.draw(y.index(x), self.list.index(y), self.win)
+                x.update()
 
     def handleClicks(self, p):
-        self.board.tileClicked(floor(p.getX), floor(p.getY))
+        self.board.tileClicked(self.board, int(p.getX()), int(p.getY()))
+
+    def handleFlags(self, p):
+        self.board.tileFlagged(int(p.getX(), int(p.getY())))
 
 def main():
     game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
