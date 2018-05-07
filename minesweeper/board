@@ -90,6 +90,7 @@ class Board:
         centerInt = Group(board, x, y)
         centerInt.getSurroundings()
         tile.setState(True)
+        tile.__update()
         return centerInt
 
     def tileFlagged(self, x, y):
