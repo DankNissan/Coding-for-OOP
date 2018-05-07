@@ -6,8 +6,8 @@ class Group:
     def __init__(self, board, x, y):
         '''
         Initiates an instance of the group class based on a given location in the board list
-        :param x: Int
-        :param y: Int
+        :param x: INT
+        :param y: INT
         '''
         self.xposition = x
         self.yposition = y
@@ -24,44 +24,44 @@ class Group:
         '''
         Sets the number of surrounding mines to the given variable
         :param x: INT
-        :return: None
+        :return: NONE
         '''
         self.mines = x
 
     def getMines(self):
         '''
         Accessor for the mine values
-        :return: Int
+        :return: INT
         '''
         return self.mines
 
     def setSurroundings(self, x):
         '''
         Sets the surroundings dictionary
-        :param x: Dict
-        :return: None
+        :param x: DICT
+        :return: NONE
         '''
         self.surroundings = x
 
     def appendSurroundings(self, x):
         '''
         Adds a new dictionary value to the end of the surroundings dictionary
-        :param x: Dict
-        :return: None
+        :param x: DICT
+        :return: NONE
         '''
         self.surroundings.update(x)
 
     def getSurroundings(self):
         '''
         Accessor for the surroundings dictionary
-        :return: Dict
+        :return: DICT
         '''
         return self.surroundings
 
     def findSurroundings(self):
         '''
         Determines a dictionary of surrounding mine boolean values
-        :return: Dict
+        :return: DICT
         '''
 
         y = 1
@@ -76,9 +76,9 @@ class Group:
         x = 1
         if self.xposition + x <= self.board.getWidth():
             self.appendSurroundings({str(self.xposition + x)+","+str(self.yposition): self.board.getTile(self.xposition + x, self.yposition).hasMine()})
-            
+
         x -= 2
-        
+
         if self.xposition + x <= self.board.getWidth():
             self.appendSurroundings({str(self.xposition + x)+","+str(self.yposition): self.board.getTile(self.xposition + x, self.yposition).hasMine()})
 
@@ -87,7 +87,7 @@ class Group:
     def findMines(self):
         '''
         Determines the number of mines around the chosen tile
-        :return: Int
+        :return: INT
         '''
 
         for key in self.surroundings:
@@ -95,4 +95,9 @@ class Group:
                 self.mines += 1
 
     def getCoordSurroundings(self, x):
+        '''
+        Gives the coordinate pair corresponding to a value relative to a tile
+        :param x: INT
+        :return: LIST
+        '''
         return self.surroundings.keys[x + 1].split(',')
