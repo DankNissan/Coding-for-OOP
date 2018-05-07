@@ -85,3 +85,8 @@ class Board:
         centerInt.getSurroundings()
         tile.setState(True)
         return centerInt
+
+    def tileFlagged(self, x, y):
+        tile = self.getTile(x, y)
+        tile.setState(True)
+        tile.__update()
