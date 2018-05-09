@@ -96,7 +96,7 @@ class Group:
             if self.surroundings[key] == True:
                 mines += 1
         
-        self.mines = mines
+        return mines
 
     def getCoordSurroundings(self, x):
         '''
