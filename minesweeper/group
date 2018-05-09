@@ -89,10 +89,14 @@ class Group:
         Determines the number of mines around the chosen tile
         :return: INT
         '''
-
+        
+        mines = 0
+        
         for key in self.surroundings:
             if self.surroundings[key] == True:
-                self.mines += 1
+                mines += 1
+        
+        self.mines = mines
 
     def getCoordSurroundings(self, x):
         '''
