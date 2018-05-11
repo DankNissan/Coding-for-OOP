@@ -96,18 +96,19 @@ class Board:
         """
         if self.flagging:
             self.tileFlagged(x, y)
-        tile = self.getTile(x, y)
-        centerInt = Group(board, x, y)
-        tile.setState(True)
-        tile.update()
-        print(centerInt.getMines())
-        print(x, y)
-        print(centerInt.getSurroundings())
-        if centerInt.getMines() == 0:
-            print('Called')
-            self.__cascade(board, x, y)
-        print('Nothing')
-        return centerInt
+        else:
+            tile = self.getTile(x, y)
+            centerInt = Group(board, x, y)
+            tile.setState(True)
+            tile.update()
+            print(centerInt.getMines())
+                print(x, y)
+            print(centerInt.getSurroundings())
+            if centerInt.getMines() == 0:
+                print('Called')
+                self.__cascade(board, x, y)
+            print('Nothing')
+            return centerInt
 
 
     def tileFlagged(self, x, y):
