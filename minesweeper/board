@@ -11,7 +11,7 @@ class Board:
         self.mines = m
         self.tileList = []
         self.checkedList = []
-        self.flagToggle = False
+        self.flagging = False
         self.__createTiles()
 
     def getHeight(self):
@@ -20,8 +20,8 @@ class Board:
     def getWidth(self):
         return self.width
     
-    def flagging(self):
-        return self.flagToggle
+    def isFlagging(self):
+        return self.flagging
     
     def toggleFlagging(self):
         """
@@ -29,7 +29,7 @@ class Board:
         :param x: bool
         :return: None
         """
-        self.flagToggle = not self.flagToggle
+        self.flagging = not self.flagging
 
     def getTile(self, x, y):
         """
@@ -94,7 +94,7 @@ class Board:
         :param board: object -> Variable that board class is assigned to
         :return: centerInt: int -> Number that is shown to indicate the number of mines surrounding the tile
         """
-        if self.flagToggle:
+        if self.flagging:
             self.tileFlagged(x, y)
         tile = self.getTile(x, y)
         centerInt = Group(board, x, y)
