@@ -56,33 +56,37 @@ class Tile:
 
 class TileVisual(Tile):
     def __init__(self):
+        self.img = None
+        self.file = 'resources/inactive.gif'
+        self.labeltext = ""
         Tile.__init__(self)
 
-    def makeLabel(self):
-        if self.activated and self.mine:
-            self.label.setText("Mine")
-        elif self.activated:
-            self.label.setText(self.surrounding)
-        elif self.flagged:
-            self.label.setText("Flag")
-        else:
-            self.label.setText("")
-
-    def fillColor(self):
-        if self.activated and self.mine:
-            self.rect.setFill("#ff0000")
-        elif self.activated:
-            self.rect.setFill("#9b9b9b")
-        elif self.flagged:
-            self.rect.setFill("#ededed")
-        else:
-            self.rect.setFill("#ededed")
-
-    def draw(self, x, y, win):
-        self.rect = Rectangle(Point(x, y), Point(x + 1, y + 1))
-        self.label = Text(Point(x + .5, y + .5), "")
-        self.rect.draw(win); self.label.draw(win)
-        self.update()
+    def drawTile(self, x, y, win):
+        self.win = win
+        self.img = Image(Point(x + .5, y + .5), self.file)
+        self.label = Text(Point(x + .5, y + .5), self.labeltext)
+        self.img.draw(self.win); self.label.draw(self.win)
 
     def update(self):
-        self.makeLabel(); self.fillColor()
+        if self.activated and self.mine:
+            self.file = 'resources/mine.gif'
+            self.labeltext = ""
+        elif self.activated:
+            self.file = 'resources/active.gif'
+            if self.surrounding:
+                self.labeltext = self.surrounding
+            else:
+                self.labeltext = ""
+        elif self.flagged:
+            self.file = 'resources/flagged.gif'
+            self.labeltext = ""
+        else:
+            self.file = 'resources/inactive.gif'
+            self.labeltext = ""
+
+        try:
+            self.drawTile(self.img.getAnchor().getX(), self.img.getAnchor().getY(), self.win)
+        except:
+            pass
+        self.img.undraw(); self.label.undraw()
+        self.drawTile(self.img.getAnchor().getX(), self.img.getAnchor().getY(), self.win)
