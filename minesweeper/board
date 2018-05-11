@@ -19,10 +19,10 @@ class Board:
 
     def getWidth(self):
         return self.width
-    
+
     def isFlagging(self):
         return self.flagging
-    
+
     def toggleFlagging(self):
         """
         Toggles the flagging state
@@ -102,14 +102,13 @@ class Board:
             tile.setState(True)
             tile.update()
             print(centerInt.getMines())
-                print(x, y)
+            print(x, y)
             print(centerInt.getSurroundings())
-            if centerInt.getMines() == 0:
-                print('Called')
-                self.__cascade(board, x, y)
+            #if centerInt.getMines() == 0:
+            #   print('Called')
+            #  self.__cascade(board, x, y)
             print('Nothing')
             return centerInt
-
 
     def tileFlagged(self, x, y):
         """
@@ -125,3 +124,40 @@ class Board:
         else:
             tile.setFlag(True)
             tile.update()
+
+    def __cascade(self, board, x, y):
+        """
+        Gets called by the tileClicked() method if the center integer is = 0. Cascade loops finding the tiles around it
+        that are also = 0, so that way you don't have to manual click a bunch of mines that are confirmed to have no
+        mines
+        :param board: obj -> Variable that board class is assigned to
+        :param x: int -> Coordinate
+        :param y: int -> Coordinate
+        :return: None
+        """
+        group = Group(board, x, y)
+        print('Attempted1')
+        print(group.getSurroundings().values())
+        for value in group.getSurroundings().values():
+            print('Attempted2')
+            print(value)
+            if value == 0 and not([x, y] in self.checkedList):
+                tile = self.getTile(x, y)
+                tile.setState(True)
+                print(self.checkedList)
+                while True:
+                    for i in range(4):
+                        coordSurroundings = group.getCoordSurroundings(i+1)
+                        print(coordSurroundings)
+                        print('Attempted3')
+                        tile = self.getTile(coordSurroundings[0], coordSurroundings[1])
+                        print(coordSurroundings)
+                        self.checkedList.append([x, y])
+                        self.__cascade(board, x, y)
+                        tile.update()
+
+                        # group classes checks for tiles that don't exist
+
+
+# Use dotKeys to get the coordinates above, below, side to side, to get the correct tiles checked
+
