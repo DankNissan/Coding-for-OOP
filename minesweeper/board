@@ -85,8 +85,8 @@ class Board:
         # This method assumes that the GUI class has already checked for a mine using hasMine()
         tile = self.getTile(x, y)
         # Get correct call name from group class when available
-        centerInt = Group(board, x, y)
-        centerInt.getSurroundings()
+        group = Group(board, x, y)
+        centerInt = group.getSurroundings()
         tile.setState(True)
         tile.update()
         return centerInt
