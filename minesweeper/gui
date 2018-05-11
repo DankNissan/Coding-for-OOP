@@ -28,14 +28,13 @@ class GUI:
     def drawBoard(self):
         for y in self.list:
             for x in y:
-                x.draw(y.index(x), self.list.index(y), self.win)
-                x.update()
+                x.drawTile(y.index(x), self.list.index(y), self.win)
 
     def handleClicks(self, p):
         self.board.tileClicked(self.board, int(p.getX()), int(p.getY()))
 
     def handleFlags(self, p):
-        self.board.tileFlagged(int(p.getX(), int(p.getY())))
+        self.board.tileFlagged(int(p.getX()), int(p.getY()))
 
 def main():
     game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
