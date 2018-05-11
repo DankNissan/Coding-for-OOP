@@ -63,8 +63,8 @@ class TileVisual(Tile):
 
     def drawTile(self, x, y, win):
         self.win = win
-        self.img = Image(Point(x + .5, y + .5), self.file)
-        self.label = Text(Point(x + .5, y + .5), self.labeltext)
+        self.img = Image(Point(x, y), self.file)
+        self.label = Text(Point(x, y), self.labeltext)
         self.img.draw(self.win); self.label.draw(self.win)
 
     def update(self):
