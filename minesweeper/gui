@@ -9,20 +9,17 @@ class GUI:
     def __init__(self, h, w, m):
         self.height = h; self.width = w; self.mines = m
         self.win = GraphWin("Minesweeper", self.width * 42, self.height * 42)
-        self.win.setCoords(0, 0, self.width, self.height)
+        self.win.setCoords(-.5, -.5, self.width - .5, self.height - .5)
 
         self.board = Board(self.height, self.width, self.mines)
         self.list = self.board.getList()
         self.drawBoard()
-        self.flagging = False
         while True:
             p = self.win.checkMouse()
-            if p and not self.flagging:
+            if p and not self.board.isFlagging():
                 self.handleClicks(p)
-            elif p and self.flagging:
-                self.handleFlags(p)
             elif self.win.checkKey().upper() == "F":
-                self.flagging = not self.flagging
+                self.board.toggleFlagging()
 
 
     def drawBoard(self):
@@ -31,10 +28,7 @@ class GUI:
                 x.drawTile(y.index(x), self.list.index(y), self.win)
 
     def handleClicks(self, p):
-        self.board.tileClicked(self.board, int(p.getX()), int(p.getY()))
-
-    def handleFlags(self, p):
-        self.board.tileFlagged(int(p.getX()), int(p.getY()))
+        self.board.tileClicked(self.board, int(p.getX() + .5), int(p.getY() + .5))
 
 def main():
     game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
