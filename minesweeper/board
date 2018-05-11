@@ -20,7 +20,7 @@ class Board:
     def getWidth(self):
         return self.width
     
-    def isFlagToggled(self):
+    def flagging(self):
         return self.flagToggle
     
     def toggleFlagging(self):
