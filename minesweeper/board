@@ -10,6 +10,8 @@ class Board:
         self.width = w
         self.mines = m
         self.tileList = []
+        self.checkedList = []
+        self.flagToggle = False
         self.__createTiles()
 
     def getHeight(self):
@@ -17,6 +19,17 @@ class Board:
 
     def getWidth(self):
         return self.width
+    
+    def isFlagToggled(self):
+        return self.flagToggle
+    
+    def flagToggling(self):
+        """
+        Toggles the flagging state
+        :param x: bool
+        :return: None
+        """
+        self.flagToggle = not self.flagToggle
 
     def getTile(self, x, y):
         """
@@ -27,7 +40,6 @@ class Board:
         :param y: int -> y-coordinate
         :return: self.tileList: Object -> Tile
         """
-        # The list starts at zero, so this makes sure that the correct tile is found
         return self.tileList[y][x]
 
     def __createTiles(self):
@@ -82,14 +94,21 @@ class Board:
         :param board: object -> Variable that board class is assigned to
         :return: centerInt: int -> Number that is shown to indicate the number of mines surrounding the tile
         """
-        # This method assumes that the GUI class has already checked for a mine using hasMine()
+        if self.flagToggle:
+            self.tileFlagged(x, y)
         tile = self.getTile(x, y)
-        # Get correct call name from group class when available
-        group = Group(board, x, y)
-        centerInt = group.getSurroundings()
+        centerInt = Group(board, x, y)
         tile.setState(True)
         tile.update()
+        print(centerInt.getMines())
+        print(x, y)
+        print(centerInt.getSurroundings())
+        if centerInt.getMines() == 0:
+            print('Called')
+            self.__cascade(board, x, y)
+        print('Nothing')
         return centerInt
+
 
     def tileFlagged(self, x, y):
         """
@@ -99,5 +118,7 @@ class Board:
         :return: None
         """
         tile = self.getTile(x, y)
+        if tile.isFlagged():
+            tile.setFlag(False)
         tile.setFlag(True)
         tile.update()
