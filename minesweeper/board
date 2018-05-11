@@ -23,7 +23,7 @@ class Board:
     def isFlagToggled(self):
         return self.flagToggle
     
-    def flagToggling(self):
+    def toggleFlagging(self):
         """
         Toggles the flagging state
         :param x: bool
