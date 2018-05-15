@@ -2,6 +2,7 @@
 from Tile import TileVisual
 from Group import Group
 from random import randrange
+import collections
 
 
 class Board:
@@ -105,13 +106,8 @@ class Board:
                 tile.setSurrounding(centerInt.getMines())
                 tile.setState(True)
                 tile.update()
-                print(centerInt.getMines())
-                print(x, y)
-                print(centerInt.getSurroundings())
-                #if centerInt.getMines() == 0:
-                #    print('Called')
-                #    self.__cascade(board, x, y)
-                print('Nothing')
+                if centerInt.getMines() == 0:
+                    self.__cascade(board, x, y)
                 return centerInt
 
     def tileFlagged(self, x, y):
@@ -140,32 +136,17 @@ class Board:
         :return: None
         """
         group = Group(board, x, y)
-        print('Attempted1')
-        print(group.getSurroundings().values())
         for value in group.getGroup():
-            print('Attempted2')
-            print(group.getSurroundings())
-            print(value)
-            if value.getMines() == 0 and not([x, y] in self.checkedList):
-                tile = self.getTile(x, y)
-                tile.setState(True)
-                print(self.checkedList)
-                while True:
-                    for i in range(4):
-                        coordSurroundings = group.getCoordSurroundings(i)
-                        x = int(coordSurroundings[0])
-                        y = int(coordSurroundings[1])
-                        print(coordSurroundings)
-                        print('Attempted3')
-                        tile = self.getTile(x, y)
-                        print('Done')
-                        self.checkedList.append([x, y])
-                        tile.setState(True)
-                        self.__cascade(board, x, y)
-                        tile.update()
-
-                        # group classes checks for tiles that don't exist
-
-
-# Use dotKeys to get the coordinates above, below, side to side, to get the correct tiles checked
-
+            if value.getMines() == 0 and not[x, y] in self.checkedList:
+                length = len(list(collections.OrderedDict(group.getSurroundings())))
+                for i in range(length):
+                    coordSurroundings = group.getCoordSurroundings(i)
+                    x = int(coordSurroundings[0])
+                    y = int(coordSurroundings[1])
+                    tile = self.getTile(x, y)
+                    self.checkedList.append([x, y])
+                    centerInt = Group(board, x, y)
+                    tile.setSurrounding(centerInt.getMines())
+                    tile.setState(True)
+                    tile.update()
+                self.__cascade(board, x, y)
