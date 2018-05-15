@@ -84,9 +84,9 @@ class TileVisual(Tile):
             self.file = 'resources/inactive.gif'
             self.labeltext = ""
 
-        try:
-            self.drawTile(self.img.getAnchor().getX(), self.img.getAnchor().getY(), self.win)
-        except:
-            pass
-        self.img.undraw(); self.label.undraw()
+#        try:
         self.drawTile(self.img.getAnchor().getX(), self.img.getAnchor().getY(), self.win)
+#        except:
+#            pass
+#        self.img.undraw(); self.label.undraw()
+#        self.drawTile(self.img.getAnchor().getX(), self.img.getAnchor().getY(), self.win)
