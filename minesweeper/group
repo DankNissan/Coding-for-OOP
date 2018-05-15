@@ -90,13 +90,13 @@ class Group:
                 x = 1
                 if self.xposition + x <= self.board.getWidth() - 1:
                     self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
-                        self.xposition + x, self.yposition).hasMine()})
-    
+                        self.xposition + x, self.yposition + y).hasMine()})
+
                 x -= 2
-    
+
                 if self.xposition + x <= self.board.getWidth():
                     self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
-                        self.xposition + x, self.yposition).hasMine()})
+                        self.xposition + x, self.yposition + y).hasMine()})
 
             if y != 0:
                 self.appendSurroundings({str(self.xposition) + "," + str(y + self.yposition): self.board.getTile(
