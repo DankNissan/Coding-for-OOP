@@ -104,4 +104,4 @@ class Group:
         :param x: INT
         :return: LIST
         '''
-        return self.surroundings.keys[x + 1].split(',')
+        return list(collections.OrderedDict(self.surroundings))[x + 1].split(',')
