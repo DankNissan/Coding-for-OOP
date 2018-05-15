@@ -85,17 +85,18 @@ class Group:
         '''
 
         y = 1
-        while y >= -1 and self.yposition + y <= self.board.getHeight() - 1:
-            x = 1
-            if self.xposition + x <= self.board.getWidth() - 1:
-                self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
-                    self.xposition + x, self.yposition).hasMine()})
-
-            x -= 2
-
-            if self.xposition + x <= self.board.getWidth():
-                self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
-                    self.xposition + x, self.yposition).hasMine()})
+        while y >= -1:
+            if 1 <= self.yposition + y <= self.board.getHeight() - 1:
+                x = 1
+                if self.xposition + x <= self.board.getWidth() - 1:
+                    self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
+                        self.xposition + x, self.yposition).hasMine()})
+    
+                x -= 2
+    
+                if self.xposition + x <= self.board.getWidth():
+                    self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
+                        self.xposition + x, self.yposition).hasMine()})
 
             if y != 0:
                 self.appendSurroundings({str(self.xposition) + "," + str(y + self.yposition): self.board.getTile(
