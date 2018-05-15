@@ -73,7 +73,7 @@ class Group:
 
     def getGroup(self):
         for coord in list(self.surroundings):
-            x, y = coord[0], coord[1]
+            x, y = coord[0], coord[2]
             self.group.append(Group(self.board, int(x), int(y)))
 
         return self.group
@@ -89,20 +89,20 @@ class Group:
             if 0 <= self.yposition + y <= self.board.getHeight() - 1:
                 x = 1
                 if 0 <= self.xposition + x <= self.board.getWidth() - 1:
-                    self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
+                    self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition + y): self.board.getTile(
                         self.xposition + x, self.yposition + y).hasMine()})
 
                 x -= 2
 
                 if 0 <= self.xposition + x <= self.board.getWidth():
-                    self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
+                    self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition + y): self.board.getTile(
                         self.xposition + x, self.yposition + y).hasMine()})
 
             if y != 0:
-                self.appendSurroundings({str(self.xposition) + "," + str(y + self.yposition): self.board.getTile(
-                    self.xposition, y + self.yposition).hasMine()})
+                self.appendSurroundings({str(self.xposition) + "," + str(self.yposition + y): self.board.getTile(
+                    self.xposition, self.yposition + y).hasMine()})
 
-            y -= 2
+            y -= 1
 
         return self.surroundings
 
