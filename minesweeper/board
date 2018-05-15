@@ -102,9 +102,6 @@ class Board:
                 pass
             else:
                 centerInt = Group(board, x, y)
-                print('a')
-                print('a')
-                print(centerInt.getMines())
                 tile.setSurrounding(centerInt.getMines())
                 tile.setState(True)
                 tile.update()
