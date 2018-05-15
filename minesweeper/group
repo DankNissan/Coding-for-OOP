@@ -1,4 +1,5 @@
 # Group.py
+import collections
 from Board import *
 
 
@@ -13,6 +14,17 @@ class Group:
         self.yposition = y
         self.centerTile = board.getTile(x, y)
         self.board = board
+        self.edge = []
+        self.group = []
+
+        if x == self.board.getWidth() - 1:
+            self.edge.append('right')
+        elif x == 1:
+            self.edge.append('left')
+        if y == self.board.getHeight() - 1:
+            self.edge.append('top')
+        elif y == 1:
+            self.edge.append('bottom')
 
         self.mines = 0
         self.surroundings = {}
@@ -33,6 +45,7 @@ class Group:
         Accessor for the mine values
         :return: INT
         '''
+
         return self.mines
 
     def setSurroundings(self, x):
@@ -58,6 +71,13 @@ class Group:
         '''
         return self.surroundings
 
+    def getGroup(self):
+        for coord in list(self.surroundings):
+            x, y = coord[0], coord[1]
+            self.group.append(Group(self.board, x, y))
+
+        return self.group
+
     def findSurroundings(self):
         '''
         Determines a dictionary of surrounding mine boolean values
@@ -65,22 +85,23 @@ class Group:
         '''
 
         y = 1
-        if self.yposition + y <= self.board.getHeight() - 1:
-            self.appendSurroundings({str(self.xposition)+","+str(y + self.yposition): self.board.getTile(self.xposition, y + self.yposition).hasMine()})
+        while y >= -1 and self.yposition + y <= self.board.getHeight() - 1:
+            x = 1
+            if self.xposition + x <= self.board.getWidth() - 1:
+                self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
+                    self.xposition + x, self.yposition).hasMine()})
 
-        y -= 2
+            x -= 2
 
-        if self.yposition + y >= 1:
-            self.appendSurroundings({str(self.xposition)+","+str(y + self.yposition): self.board.getTile(self.xposition, y + self.yposition).hasMine()})
+            if self.xposition + x <= self.board.getWidth():
+                self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition): self.board.getTile(
+                    self.xposition + x, self.yposition).hasMine()})
 
-        x = 1
-        if self.xposition + x <= self.board.getWidth() - 1:
-            self.appendSurroundings({str(self.xposition + x)+","+str(self.yposition): self.board.getTile(self.xposition + x, self.yposition).hasMine()})
+            if y != 0:
+                self.appendSurroundings({str(self.xposition) + "," + str(y + self.yposition): self.board.getTile(
+                    self.xposition, y + self.yposition).hasMine()})
 
-        x -= 2
-
-        if self.xposition + x <= self.board.getWidth():
-            self.appendSurroundings({str(self.xposition + x)+","+str(self.yposition): self.board.getTile(self.xposition + x, self.yposition).hasMine()})
+            y -= 2
 
         return self.surroundings
 
@@ -89,13 +110,13 @@ class Group:
         Determines the number of mines around the chosen tile
         :return: INT
         '''
-        
+
         mines = 0
-        
+
         for key in self.surroundings:
-            if self.surroundings[key] == True:
+            if self.surroundings[key]:
                 mines += 1
-        
+
         return mines
 
     def getCoordSurroundings(self, x):
@@ -105,10 +126,3 @@ class Group:
         :return: LIST
         '''
         return list(collections.OrderedDict(self.surroundings))[x + 1].split(',')
-        
-    def getGroup(self):
-        for coord in list(self.surroundings):
-            x, y = coord[0], coord[1]
-            self.group.append(Group(self.board, x, y))
-        
-        return self.group
