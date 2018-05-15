@@ -102,14 +102,18 @@ class Board:
                 pass
             else:
                 centerInt = Group(board, x, y)
+                print('a')
+                print('a')
+                print(centerInt.getMines())
+                tile.setSurrounding(centerInt.getMines())
                 tile.setState(True)
                 tile.update()
                 print(centerInt.getMines())
                 print(x, y)
                 print(centerInt.getSurroundings())
                 #if centerInt.getMines() == 0:
-                #   print('Called')
-                #  self.__cascade(board, x, y)
+                #    print('Called')
+                #    self.__cascade(board, x, y)
                 print('Nothing')
                 return centerInt
 
@@ -141,21 +145,25 @@ class Board:
         group = Group(board, x, y)
         print('Attempted1')
         print(group.getSurroundings().values())
-        for value in group.getSurroundings().values():
+        for value in group.getGroup():
             print('Attempted2')
+            print(group.getSurroundings())
             print(value)
-            if value == 0 and not([x, y] in self.checkedList):
+            if value.getMines() == 0 and not([x, y] in self.checkedList):
                 tile = self.getTile(x, y)
                 tile.setState(True)
                 print(self.checkedList)
                 while True:
                     for i in range(4):
-                        coordSurroundings = group.getCoordSurroundings(i+1)
+                        coordSurroundings = group.getCoordSurroundings(i)
+                        x = int(coordSurroundings[0])
+                        y = int(coordSurroundings[1])
                         print(coordSurroundings)
                         print('Attempted3')
-                        tile = self.getTile(coordSurroundings[0], coordSurroundings[1])
-                        print(coordSurroundings)
+                        tile = self.getTile(x, y)
+                        print('Done')
                         self.checkedList.append([x, y])
+                        tile.setState(True)
                         self.__cascade(board, x, y)
                         tile.update()
 
