@@ -16,7 +16,7 @@ class GUI:
         self.drawBoard()
         while True:
             p = self.win.checkMouse()
-            if p and not self.board.isFlagging():
+            if p:
                 self.handleClicks(p)
             elif self.win.checkKey().upper() == "F":
                 self.board.toggleFlagging()
@@ -25,7 +25,7 @@ class GUI:
     def drawBoard(self):
         for y in self.list:
             for x in y:
-                x.drawTile(y.index(x), self.list.index(y), self.win)
+                x.drawTile(y.index(x) + .012, self.list.index(y) - .012, self.win)
 
     def handleClicks(self, p):
         self.board.tileClicked(self.board, int(p.getX() + .5), int(p.getY() + .5))
