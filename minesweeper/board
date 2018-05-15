@@ -138,8 +138,7 @@ class Board:
         group = Group(board, x, y)
         for value in group.getGroup():
             if value.getMines() == 0 and not[x, y] in self.checkedList:
-                length = len(list(collections.OrderedDict(group.getSurroundings())))
-                for i in range(length):
+                for i in range(len(list(collections.OrderedDict(group.getSurroundings())))):
                     coordSurroundings = group.getCoordSurroundings(i)
                     x = int(coordSurroundings[0])
                     y = int(coordSurroundings[1])
