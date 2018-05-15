@@ -106,7 +106,7 @@ class Group:
         '''
         return list(collections.OrderedDict(self.surroundings))[x + 1].split(',')
         
-        def getGroup(self):
+    def getGroup(self):
         for coord in list(self.surroundings):
             x, y = coord[0], coord[1]
             self.group.append(Group(self.board, x, y))
