@@ -109,13 +109,15 @@ class Board:
                 centerInt = Group(board, x, y)
                 tile.setSurrounding(centerInt.getMines())
                 tile.setState(True)
+                self.tilesClicked += 1
+                print(self.tilesClicked)
                 if tile.hasMine():
                     self.__lost
+                if self.totalTiles - self.tilesClicked == self.mines:
+                    self.__won
                 tile.update()
                 if centerInt.getMines() == 0:
                     self.__cascade(board, x, y)
-        if self.safeTiles - self.tilesClicked == 0:
-            self.__won
 
     def tileFlagged(self, x, y):
         """
@@ -155,6 +157,11 @@ class Board:
                     self.checkedList.append([x, y])
                     centerInt = Group(board, x, y)
                     tile.setSurrounding(centerInt.getMines())
-                    tile.setState(True)
+                    if tile.isActivated():
+                        pass
+                    else:
+                        tile.setState(True)
+                        self.tilesClicked += 1
+                        print(self.tilesClicked)
                     tile.update()
                 self.__cascade(board, x, y)
