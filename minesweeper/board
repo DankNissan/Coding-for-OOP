@@ -49,17 +49,7 @@ class Board:
         :param y: int -> y-coordinate
         :return: self.tileList: Object -> Tile
         """
-        try:
-            return self.tileList[y][x]
-        except:
-            if y == self.height:
-                return self.tileList[y - 1][x]
-            elif y == self.height and x == self.width:
-                return self.tileList[y - 1][x - 1]
-            elif y > self.height:
-                return self.tileList[y + 1][x]
-            elif y > self.height and x > self.width:
-                return self.tileList[y + 1][x + 1]
+        return self.tileList[y][x]
 
     def __createTiles(self):
         """
@@ -117,8 +107,6 @@ class Board:
             self.tileFlagged(x, y)
         else:
             tile = self.getTile(x, y)
-            print(x)
-            print(y)
             if tile.isFlagged():
                 pass
             else:
@@ -193,3 +181,6 @@ class Board:
 
     def time(self):
         return self.timer.getTime()
+
+    def flagCounter(self):
+        return self.mines - self.flagCount
