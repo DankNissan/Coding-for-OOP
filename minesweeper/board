@@ -18,6 +18,8 @@ class Board:
         self.tilesClicked = 0
         self.flagging = False
         self.__createTiles()
+        self.gameWon = None
+        self.gameLost = None
 
     def getHeight(self):
         return self.height
@@ -112,9 +114,9 @@ class Board:
                 self.tilesClicked += 1
                 print(self.tilesClicked)
                 if tile.hasMine():
-                    self.__lost
+                    self.gameLost = True
                 if self.totalTiles - self.tilesClicked == self.mines:
-                    self.__won
+                    self.gameWon = True
                 tile.update()
                 if centerInt.getMines() == 0:
                     self.__cascade(board, x, y)
