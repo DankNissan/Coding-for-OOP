@@ -13,6 +13,9 @@ class Board:
         self.tileList = []
         self.checkedList = []
         self.flagCount = m
+        self.totalTiles = h * w
+        self.safeTiles = h * w - m
+        self.tilesClicked = 0
         self.flagging = False
         self.__createTiles()
 
@@ -106,10 +109,13 @@ class Board:
                 centerInt = Group(board, x, y)
                 tile.setSurrounding(centerInt.getMines())
                 tile.setState(True)
+                if tile.hasMine():
+                    self.__lost
                 tile.update()
                 if centerInt.getMines() == 0:
                     self.__cascade(board, x, y)
-                return centerInt
+        if self.safeTiles - self.tilesClicked == 0:
+            self.__won
 
     def tileFlagged(self, x, y):
         """
