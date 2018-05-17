@@ -1,0 +1,13 @@
+# timer.py
+
+import time
+
+
+class Timer:
+    def __init__(self):
+        self.starttime = time.time()
+        while True:
+            self.elapsed = time.time() - self.starttime
+            
+    def getTime(self):
+        return self.elapsed.floor()
