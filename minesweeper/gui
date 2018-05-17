@@ -1,7 +1,6 @@
 # gui.py
 
 from graphics import *
-from tile import TileVisual
 from board import Board
 
 
@@ -35,4 +34,3 @@ def main():
     game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
 
 main()
-
