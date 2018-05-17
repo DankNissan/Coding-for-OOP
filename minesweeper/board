@@ -12,6 +12,7 @@ class Board:
         self.mines = m
         self.tileList = []
         self.checkedList = []
+        self.flagCount = m
         self.flagging = False
         self.__createTiles()
 
@@ -119,9 +120,11 @@ class Board:
         """
         tile = self.getTile(x, y)
         if tile.isFlagged():
+            self.flagCount += 1
             tile.setFlag(False)
             tile.update()
         else:
+            self.flagCount -= 1
             tile.setFlag(True)
             tile.update()
 
