@@ -1,12 +1,12 @@
 # timer.py
 
 import time
-
+from math import floor
 
 class Timer:
     def __init__(self):
         self.starttime = time.time()
-        self.elapsed = time.time()
 
     def getTime(self):
-        return (self.elapsed - self.starttime).floor()
+        self.elapsed = time.time()
+        return floor(self.elapsed - self.starttime)
