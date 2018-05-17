@@ -47,7 +47,10 @@ class Board:
         :param y: int -> y-coordinate
         :return: self.tileList: Object -> Tile
         """
-        return self.tileList[y][x]
+        try:
+            return self.tileList[y][x]
+        except:
+            return self.tileList[y-1][x]
 
     def __createTiles(self):
         """
@@ -115,11 +118,22 @@ class Board:
                 print(self.tilesClicked)
                 if tile.hasMine():
                     self.gameLost = True
+                    #self.revealBoard()
                 if self.totalTiles - self.tilesClicked == self.mines:
                     self.gameWon = True
+                    #self.revealBoard()
                 tile.update()
                 if centerInt.getMines() == 0:
                     self.__cascade(board, x, y)
+
+    def revealBoard(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                tile = self.getTile(x, y)
+                if tile.isFlagged():
+                    pass
+                else:
+                    pass
 
     def tileFlagged(self, x, y):
         """
