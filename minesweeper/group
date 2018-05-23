@@ -94,11 +94,11 @@ class Group:
 
                 x -= 2
 
-                if 0 <= self.xposition + x <= self.board.getWidth():
+                if 0 <= self.xposition + x <= self.board.getWidth() - 1:
                     self.appendSurroundings({str(self.xposition + x) + "," + str(self.yposition + y): self.board.getTile(
                         self.xposition + x, self.yposition + y).hasMine()})
 
-            if y != 0:
+            if y != 0 and 0 <= self.yposition + y <= self.board.getHeight() - 1:
                 self.appendSurroundings({str(self.xposition) + "," + str(self.yposition + y): self.board.getTile(
                     self.xposition, self.yposition + y).hasMine()})
 
