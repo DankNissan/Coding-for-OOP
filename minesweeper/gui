@@ -1,7 +1,9 @@
 # gui.py
 
 from graphics import *
+from timer import Timer
 from board import Board
+from button import Button
 
 
 class GUI:
@@ -9,11 +11,17 @@ class GUI:
         self.height = h; self.width = w; self.mines = m
         self.win = GraphWin("Minesweeper", self.width * 42, self.height * 42 + 84)
         self.win.setCoords(-.5, -.5, self.width - .5, self.height + 1.5)
-
         self.board = Board(self.height, self.width, self.mines)
         self.list = self.board.getList()
         self.drawBoard()
+        self.time = Timer()
+        self.timer = Text(Point(6, 8), self.board.time())
+        self.timer.setFace("courier")
+        self.timer.setSize(36)
+        self.timer.draw(self.win)
+        self.mines = Text(Point(1, 8), self.board.flagCounter())
         while True:
+            self.timer.setText(self.board.time())
             p = self.win.checkMouse()
             if p:
                 self.handleClicks(p)
@@ -31,6 +39,6 @@ class GUI:
             self.board.tileClicked(self.board, int(p.getX() + .5), int(p.getY() + .5))
 
 def main():
-    game = GUI(8, 8, 10)      # beginner: 8, 8, 10; intermediate: 16, 16, 40; expert: 24, 24, 99
+    game = GUI(8, 8, 10)      # don't change
 
 main()
