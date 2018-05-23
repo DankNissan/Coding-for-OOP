@@ -125,7 +125,7 @@ class Board:
                         self.__cascade(board, x, y)
 
     def getRemaining(self):
-        return self.mines - self.flagCount
+        return self.mines + self.flagCount
 
     def isLost(self):
         return self.gameLost
