@@ -166,23 +166,25 @@ class Board:
         group = Group(board, x, y)
         for value in group.getGroup():
             if value.getMines() == 0 and not[x, y] in self.checkedList:
+                print('pass')
                 for i in range(len(list(collections.OrderedDict(group.getSurroundings())))):
-                    print('insideRun')
-                    coordSurroundings = group.getCoordSurroundings(i)
-                    x = int(coordSurroundings[0])
-                    y = int(coordSurroundings[1])
-                    tile = self.getTile(x, y)
-                    self.checkedList.append([x, y])
-                    centerInt = Group(board, x, y)
-                    tile.setSurrounding(centerInt.getMines())
-                    if tile.isActivated():
-                        pass
-                    else:
-                        tile.setState(True)
-                        self.tilesClicked += 1
-                    tile.update()
-                print('recalled')
-                self.__cascade(board, x, y)
+                    if group.getMines() == 0:
+                        print('insideRun')
+                        coordSurroundings = group.getCoordSurroundings(i)
+                        self.checkedList.append([x, y])
+                        x = int(coordSurroundings[0])
+                        y = int(coordSurroundings[1])
+                        tile = self.getTile(x, y)
+                        centerInt = Group(board, x, y)
+                        tile.setSurrounding(centerInt.getMines())
+                        if tile.isActivated():
+                            pass
+                        else:
+                            tile.setState(True)
+                            self.tilesClicked += 1
+                        tile.update()
+                        print('recalled')
+                        self.__cascade(board, x, y)
 
     def time(self):
         return self.timer.getTime()
