@@ -14,8 +14,8 @@ class GUI:
         self.board = Board(self.height, self.width, self.mines)
         self.list = self.board.getList()
         self.drawBoard()
-        self.mines = Text(Point(1, 8), self.board.flagCounter())
         while True:
+            self.mines.setText(self.board.getRemaining())
             self.timer.setText(self.board.time())
             p = self.win.checkMouse()
             if p:
@@ -48,6 +48,11 @@ class GUI:
 
         self.flagIndicator = Button(self.win, Point(3.5, 8), 1.5, .4, "Not flagging")
         self.flagIndicator.activate()
+
+        self.mines = Text(Point(1, 8.5), self.board.flagCounter())
+        self.mines.setFace("courier")
+        self.mines.setSize(36)
+        self.mines.draw(self.win)
 
     def handleClicks(self, p):
         if p.getY() <= self.height - .5:
