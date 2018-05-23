@@ -123,6 +123,9 @@ class Board:
                     tile.update()
                     if centerInt.getMines() == 0:
                         self.__cascade(board, x, y)
+    
+    def getRemaining(self):
+        return self.mines - self.flagCount
 
     def isLost(self):
         return self.gameLost
