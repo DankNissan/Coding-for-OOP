@@ -6,6 +6,12 @@ from board import Board
 from button import Button
 
 
+from graphics import *
+from timer import Timer
+from board import Board
+from button import Button
+
+
 class GUI:
     def __init__(self, h, w, m):
         self.height = h; self.width = w; self.mines = m
@@ -14,11 +20,6 @@ class GUI:
         self.board = Board(self.height, self.width, self.mines)
         self.list = self.board.getList()
         self.drawBoard()
-        self.time = Timer()
-        self.timer = Text(Point(6, 8), self.board.time())
-        self.timer.setFace("courier")
-        self.timer.setSize(36)
-        self.timer.draw(self.win)
         self.mines = Text(Point(1, 8), self.board.flagCounter())
         while True:
             self.timer.setText(self.board.time())
@@ -26,17 +27,49 @@ class GUI:
             if p:
                 self.handleClicks(p)
             elif self.win.checkKey().upper() == "F":
-                self.board.toggleFlagging()
+                self.flagControl()
 
+    def flagControl(self):
+        self.board.toggleFlagging()
+        if self.board.isFlagging():
+            self.flagIndicator.setLabel("Flagging")
+        else:
+            self.flagIndicator.setLabel("Not flagging")
 
     def drawBoard(self):
         for y in self.list:
             for x in y:
                 x.drawTile(y.index(x) + .012, self.list.index(y) - .012, self.win)
 
+        self.time = Timer()
+        self.timer = Text(Point(6, 8.5), self.board.time())
+        self.timer.setFace("courier")
+        self.timer.setSize(36)
+        self.timer.draw(self.win)
+
+        self.resetButton = Button(self.win, Point(3.5, 9), 1.5, .4, "Reset")
+        self.quitButton = Button(self.win, Point(3.5, 8.5), 1.5, .4, "Quit")
+        self.resetButton.activate()
+        self.quitButton.activate()
+
+        self.flagIndicator = Button(self.win, Point(3.5, 8), 1.5, .4, "Not flagging")
+        self.flagIndicator.activate()
+
     def handleClicks(self, p):
         if p.getY() <= self.height - .5:
             self.board.tileClicked(self.board, int(p.getX() + .5), int(p.getY() + .5))
+        elif self.resetButton.clicked(p):
+            self.win.close()
+            main()
+        elif self.quitButton.clicked(p):
+            quit()
+        elif self.flagIndicator.clicked(p):
+            self.flagControl()
+
+def main():
+    game = GUI(8, 8, 10)      # don't change
+
+main()
 
 def main():
     game = GUI(8, 8, 10)      # don't change
