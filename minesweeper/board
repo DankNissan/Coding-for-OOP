@@ -116,22 +116,24 @@ class Board:
                 self.tilesClicked += 1
                 if tile.hasMine():
                     self.gameLost = True
-                    #self.revealBoard()
+                    self.revealBoard()
                 if self.totalTiles - self.tilesClicked == self.mines:
                     self.gameWon = True
-                    #self.revealBoard()
+                    self.revealBoard()
                 tile.update()
                 if centerInt.getMines() == 0:
                     self.__cascade(board, x, y)
 
     def revealBoard(self):
+        """
+        Reveals the board to the player to show them the mines if they win/lose
+        :return: None
+        """
         for y in range(self.height):
             for x in range(self.width):
                 tile = self.getTile(x, y)
-                if tile.isFlagged():
-                    pass
-                else:
-                    pass
+                if tile.hasMine():
+                    tile.setState(True)
 
     def tileFlagged(self, x, y):
         """
@@ -160,6 +162,7 @@ class Board:
         :param y: int -> Coordinate
         :return: None
         """
+        surroundingList = []
         group = Group(board, x, y)
         for value in group.getGroup():
             if value.getMines() == 0 and not[x, y] in self.checkedList:
@@ -171,6 +174,7 @@ class Board:
                     self.checkedList.append([x, y])
                     centerInt = Group(board, x, y)
                     tile.setSurrounding(centerInt.getMines())
+                    tile.append(surroundingList)
                     if tile.isActivated():
                         pass
                     else:
