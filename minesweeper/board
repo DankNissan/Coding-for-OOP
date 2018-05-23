@@ -14,7 +14,7 @@ class Board:
         self.mines = m
         self.tileList = []
         self.checkedList = []
-        self.flagCount = m
+        self.flagCount = 0
         self.totalTiles = h * w
         self.safeTiles = h * w - m
         self.tilesClicked = 0
@@ -123,7 +123,7 @@ class Board:
                     tile.update()
                     if centerInt.getMines() == 0:
                         self.__cascade(board, x, y)
-    
+
     def getRemaining(self):
         return self.mines - self.flagCount
 
