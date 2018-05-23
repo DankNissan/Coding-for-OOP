@@ -1,10 +1,5 @@
 # gui.py
 
-from graphics import *
-from timer import Timer
-from board import Board
-from button import Button
-
 
 from graphics import *
 from timer import Timer
